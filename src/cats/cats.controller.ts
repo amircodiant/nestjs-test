@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Req, HttpCode, Header, Param, Body, Res, HttpStatus } from '@nestjs/common';
-import  { CreateCatDto } from './dto/create-cat.dto';
-import  { CatsService } from './cats.service';
-import  { Cat } from './interfaces/cat.interface';
+import { CreateCatDto } from './dto/create-cat.dto';
+import { CatsService } from './cats.service';
+import { Cat } from './interfaces/cat.interface';
 
 
 
@@ -10,11 +10,10 @@ export class CatsController {
 	constructor(private readonly catsService: CatsService){}
 	
 
-	/*@Post()
-	create(@Body() createCatDto: CreateCatDto){
-		console.log(createCatDto)
-		return 'This action adds a new cat';
-	}*/
+	@Post()
+	async create(@Body() createCatDto: CreateCatDto){
+		this.catsService.create(createCatDto);
+	}
 
 	/*@Post()
 	create(@Res() res){
@@ -39,11 +38,10 @@ export class CatsController {
 	    return 'This action returns all cats';
   	}*/
 
-  	/*@Get()	
-  	async findAll(@Req() request): Promise<any[]> {
-	  	console.log(request.query);
-	    return [];
-  	}*/
+  	@Get()	
+  	async findAll(): Promise<Cat[]> {
+	  	return this.catsService.findAll();
+  	}
 
   	/*@Get()	
   	async findAll(@Res() res) {
