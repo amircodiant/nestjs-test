@@ -1,15 +1,25 @@
-import { Controller, Get, Post, Req, HttpCode, Header, Param, Body } from '@nestjs/common';
-import  { CreateCatDto } from './create-cat.dto';
+import { Controller, Get, Post, Req, HttpCode, Header, Param, Body, Res, HttpStatus } from '@nestjs/common';
+import  { CreateCatDto } from './dto/create-cat.dto';
+import  { CatsService } from './cats.service';
+import  { Cat } from './interfaces/cat.interface';
+
 
 
 @Controller('cats')
 export class CatsController {
+	constructor(private readonly catsService: CatsService){}
+	
 
-	@Post()
+	/*@Post()
 	create(@Body() createCatDto: CreateCatDto){
 		console.log(createCatDto)
 		return 'This action adds a new cat';
-	}
+	}*/
+
+	/*@Post()
+	create(@Res() res){
+		res.status(HttpStatus.CREATED).send();
+	}*/
 
 	/*@Get(':id')
 	findOne(@Param() params) {
@@ -29,11 +39,16 @@ export class CatsController {
 	    return 'This action returns all cats';
   	}*/
 
-  	@Get()	
+  	/*@Get()	
   	async findAll(@Req() request): Promise<any[]> {
 	  	console.log(request.query);
 	    return [];
-  	}
+  	}*/
+
+  	/*@Get()	
+  	async findAll(@Res() res) {
+	  	res.status(HttpStatus.OK).json([{"name":"amir"}]);
+  	}*/
 
   	/**
   	 * need to import RXJS first to use Observable
@@ -44,11 +59,11 @@ export class CatsController {
 	    return of([]);
   	}*/
 
-  	@Get('test*')
+  	/*@Get('test*')
   	@HttpCode(201)
   	@Header('Cache-Control', 'none')	
   	test(@Req() request) {
 	  	console.log(request.query);
 	    return 'This action returns test';
-  	}
+  	}*/
 }
