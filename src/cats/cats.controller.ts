@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Req, HttpCode, Header, Param, Body, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Req, HttpCode, Header, Param, Body, Res, HttpStatus, HttpException } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cat.interface';
+import { ForbiddenException } from './../forbidden.exception';
 
 
 
@@ -64,4 +65,10 @@ export class CatsController {
 	  	console.log(request.query);
 	    return 'This action returns test';
   	}*/
+
+  	@Post('error-test')
+	erroTest(@Res() res){
+		// throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+		throw new ForbiddenException();
+	}
 }
