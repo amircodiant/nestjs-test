@@ -1,17 +1,29 @@
-import { Controller, Get, Post, Req, HttpCode, Header, Param, Body, Res, HttpStatus, HttpException } from '@nestjs/common';
+import { Controller, Get, Post, Req, Header, Param, Body, Res } from '@nestjs/common';
+import { UsePipes, UseFilters, HttpStatus, HttpException, HttpCode } from '@nestjs/common';
+
 import { CreateCatDto } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cat.interface';
 import { ForbiddenException } from './../forbidden.exception';
+import { HttpExceptionFilter } from './../http-exception.filter';
+import { JoiValidationPipe, ValidationPipe } from './../validation.pipe';
 
 
 
 @Controller('cats')
+@UseFilters(HttpExceptionFilter)
 export class CatsController {
 	constructor(private readonly catsService: CatsService){}
 	
 
+	/*@Post()
+	@UsePipes(new JoiValidationPipe(new CreateCatDto))
+	async create(@Body() createCatDto: CreateCatDto){
+		this.catsService.create(createCatDto);
+	}*/
+
 	@Post()
+	@UsePipes(ValidationPipe)
 	async create(@Body() createCatDto: CreateCatDto){
 		this.catsService.create(createCatDto);
 	}
@@ -66,9 +78,15 @@ export class CatsController {
 	    return 'This action returns test';
   	}*/
 
-  	@Post('error-test')
+  	/*@Post('error-test')
 	erroTest(@Res() res){
 		// throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
 		throw new ForbiddenException();
+	}*/
+
+	@Post('error-test')
+	erroTest(@Res() res){
+		throw new HttpException('this is custom exception message', HttpStatus.FORBIDDEN);
+		// throw new ForbiddenException();
 	}
 }
