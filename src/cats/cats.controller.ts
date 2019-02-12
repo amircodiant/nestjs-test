@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Req, Header, Param, Body, Res } from '@nestjs/common';
 import { UsePipes, UseFilters, HttpStatus, HttpException, HttpCode } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 
 import { CreateCatDto } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
@@ -7,6 +8,7 @@ import { Cat } from './interfaces/cat.interface';
 import { ForbiddenException } from './../forbidden.exception';
 import { HttpExceptionFilter } from './../http-exception.filter';
 import { JoiValidationPipe, ValidationPipe } from './../validation.pipe';
+import { AuthGuard } from './../auth.guard';
 
 
 
@@ -51,7 +53,8 @@ export class CatsController {
 	    return 'This action returns all cats';
   	}*/
 
-  	@Get()	
+  	@Get()
+  	// @UseGuards(AuthGuard)	
   	async findAll(): Promise<Cat[]> {
 	  	return this.catsService.findAll();
   	}
